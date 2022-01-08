@@ -101,7 +101,9 @@ def trainer_synapse(args, model, snapshot_path):
     db_train = Synapse_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
                                transform=transforms.Compose(
                                    [RandomGenerator(output_size=[args.img_size, args.img_size])]))
-    db_test = Synapse_dataset(base_dir='./data/Synapse/test_vol_h5', list_dir=args.list_dir, split="test_vol") # TODO add new
+    db_test = Synapse_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
+                               transform=transforms.Compose(
+                                   [RandomGenerator(output_size=[args.img_size, args.img_size])]))
     print("The length of train set is: {}".format(len(db_train)))
 
     def worker_init_fn(worker_id):
@@ -196,7 +198,10 @@ def trainer_glas(args, model, snapshot_path):
     db_train = GlaS_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
                                transform=transforms.Compose(
                                    [RandomGenerator(output_size=[args.img_size, args.img_size])]))
-    db_test = GlaS_dataset(base_dir='./data/GlaS/test_data', list_dir=args.list_dir, split="test_vol")
+    
+    db_test =GlaS_dataset(base_dir=args.root_path, list_dir=args.list_dir, split="train",
+                          transform=transforms.Compose(
+                                   [RandomGenerator(output_size=[args.img_size, args.img_size])]))
     print("The length of train set is: {}".format(len(db_train)))
 
     def worker_init_fn(worker_id):
