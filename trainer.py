@@ -22,40 +22,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 from utils import test_single_volume
 from torchsummary import summary
 
-def validate0(cur_epochs, model, loader, device, metrics,snapshot_path):
-    writer = SummaryWriter(snapshot_path + '/log')
-    torch.cuda.empty_cache()
-    prec_time = datetime.now()
-    metrics.reset()
-    with torch.no_grad():
-        for i, (image_data) in tqdm(enumerate(loader)):
-            images, labels = image_data['image'], image_data['label']
-            images = images.to(device, dtype=torch.float32)
-            labels = labels.to(device, dtype=torch.long)
 
-            outputs = model(images)
-            preds = outputs.detach().max(dim=1)[1].cpu().numpy()
-            targets = labels.cpu().numpy()
-
-            metrics.update(targets, preds)
-
-        val_score = metrics.get_results()
-        #_log_stats_val(val_score, cur_epochs, writer=writer)
-        tag_value = {'val_miou': val_score["Mean IoU"]}
-        for tag, value_v in tag_value.items():
-            writer.add_scalar('info/val', value_v, cur_epochs)
-
-        cur_time = datetime.now()
-        h, remainder = divmod((cur_time - prec_time).seconds, 3600)
-        m, s = divmod(remainder, 60)
-        time_str = 'Time: {:.0f}:{:.0f}:{:.0f}'.format(h, m, s)
-
-        # 打印 & 保存日志
-        logging.info(
-            f'Acc={val_score["Overall Acc"]}, \n'
-            f'mIoU={val_score["Mean IoU"]}, \n'
-            f'Time={time_str}')
-    return val_score
 def sum_dict(a,b):
     temp = dict()
     for key in a.keys() | b.keys():
