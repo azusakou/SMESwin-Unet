@@ -14,9 +14,11 @@ SLIC
 ## CCT:
 from /networks/cct.py  
 defined in line 709 in /networks/swin_transformer_unet_skip_expand_decoder_sys.py  
+融合d1,d2,d3,d4
 
 ## MCCT:
 defined in line 708 in /networks/swin_transformer_unet_skip_expand_decoder_sys.py  
+融合只经过cnn的输入和d1,d2,d3
 
 ## External attention:
 defined in line 718-720 in /networks/swin_transformer_unet_skip_expand_decoder_sys.py  
@@ -38,7 +40,7 @@ here are what I did:
         EA_channel = False
         superpixel = False
 
-        if CCT_module or MCCT_module == True:
+        if MCCT_module == True:
             d0=self.cnn4CCT(x)
             
         if superpixel == True:
