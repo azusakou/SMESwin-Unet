@@ -803,7 +803,7 @@ class SwinTransformerSys(nn.Module):
         EA_channel = False
         superpixel = False
 
-        if CCT_module or MCCT_module == True:
+        if MCCT_module == True:
             d0=self.cnn4CCT(x)
             
         if superpixel == True:
