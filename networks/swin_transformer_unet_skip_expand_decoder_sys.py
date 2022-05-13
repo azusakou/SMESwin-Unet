@@ -798,29 +798,16 @@ class SwinTransformerSys(nn.Module):
         return x
 
     def forward(self, x):
-        
-        MCCT_modual = True
-        EA_channel = True
-        superpixel = True
 
-        if MCCT_modual == True:
-            if superpixel == True:
-                nimage = [mark_boundaries(i.permute(1, 2, 0).cpu(),
-                                          slic(i.permute(1, 2, 0).cpu(), n_segments=100, compactness=10)) for i in x]
-                x_supp = torch.tensor(nimage, dtype=torch.float).permute(0, 3, 1, 2).to(
-                    torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
-                d0=self.cnnt1(x_supp)
-            elif superpixel == False:
-                d0 = self.cnnt1(x)
-
-        if MCCT_modual == True:
-            d0, d1, d2, d3, w = self.mcct(d0, self.skipshape(d1), self.skipshape(d2), self.skipshape(d3))
-            d1, d2, d3 = self.rev_skipshape(d1),self.rev_skipshape(d2),self.rev_skipshape(d3)
-
-        if EA_channel == True:
-            d1 = self.EA_channeld1(d1)
-            d2 = self.EA_channeld2(d2)
-            d3 = self.EA_channeld3(d3)
+        nimage = [mark_boundaries(i.permute(1, 2, 0).cpu(),slic(i.permute(1, 2, 0).cpu(), n_segments=100, compactness=10)) for i in x]
+        x_supp = torch.tensor(nimage, dtype=torch.float).permute(0, 3, 1, 2).to(
+            torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+        d0=self.cnnt1(x_supp)
+        d0, d1, d2, d3, w = self.mcct(d0, self.skipshape(d1), self.skipshape(d2), self.skipshape(d3))
+        d1, d2, d3 = self.rev_skipshape(d1),self.rev_skipshape(d2),self.rev_skipshape(d3)
+        d1 = self.EA_channeld1(d1)
+        d2 = self.EA_channeld2(d2)
+        d3 = self.EA_channeld3(d3)
 
         x = self.forward_up_features(x, [d1, d2, d3, d4])
         x = self.up_x4(x)
