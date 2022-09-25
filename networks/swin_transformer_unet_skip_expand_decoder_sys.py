@@ -11,7 +11,7 @@ from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 from torch.nn.init import kaiming_normal_, constant_
 #from .superpixel.modelssp.model_util import *
 #from .superpixel.train_util import *
-from .cct import ChannelTransformer, get_CTranS_config
+from .mcct import ChannelTransformer, get_CTranS_config
 from networks.legomodel.attention.ExternalAttention import ExternalAttention
 config_vit = get_CTranS_config()
 from skimage.segmentation import slic
