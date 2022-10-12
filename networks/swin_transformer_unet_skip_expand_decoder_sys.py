@@ -803,6 +803,7 @@ class SwinTransformerSys(nn.Module):
         x_supp = torch.tensor(nimage, dtype=torch.float).permute(0, 3, 1, 2).to(
             torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
         d0=self.cnnt1(x_supp)
+        x, [d1, d2, d3, d4] = self.forward_features(x)
         d0, d1, d2, d3, w = self.mcct(d0, self.skipshape(d1), self.skipshape(d2), self.skipshape(d3))
         d1, d2, d3 = self.rev_skipshape(d1),self.rev_skipshape(d2),self.rev_skipshape(d3)
         d1 = self.EA_channeld1(d1)
