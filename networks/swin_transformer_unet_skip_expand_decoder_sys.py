@@ -3,14 +3,10 @@ import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 from einops import rearrange
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-#from networks.superpixel.modelssp.Spixel_single_layer import SpixelNet
-#from networks.superpixel import modelssp
-#from networks.legomodel.attention.ExternalAttention import ExternalAttention # TODO add new
-#from networks.legomodel.attention.SKAttention import SKAttention
+
+#from networks.models.attention.ExternalAttention import ExternalAttention 
 
 from torch.nn.init import kaiming_normal_, constant_
-#from .superpixel.modelssp.model_util import *
-#from .superpixel.train_util import *
 from .mcct import ChannelTransformer, get_CTranS_config
 from networks.legomodel.attention.ExternalAttention import ExternalAttention
 config_vit = get_CTranS_config()
