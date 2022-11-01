@@ -3,15 +3,13 @@ import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
 from einops import rearrange
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-
 #from networks.models.attention.ExternalAttention import ExternalAttention 
-
 from torch.nn.init import kaiming_normal_, constant_
 from .mcct import ChannelTransformer, get_CTranS_config
-from networks.legomodel.attention.ExternalAttention import ExternalAttention
-config_vit = get_CTranS_config()
 from skimage.segmentation import slic
 from skimage.segmentation import mark_boundaries
+
+config_vit = get_CTranS_config()
 
 class CCA(nn.Module):
     """
